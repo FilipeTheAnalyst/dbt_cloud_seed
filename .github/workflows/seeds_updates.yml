@@ -1,0 +1,53 @@
+name: Trigger dbt Cloud job on seed file changes after merging to main
+
+on:
+  pull_request:
+    types: [closed]  # Trigger on PR closure
+    branches:
+      - main  # Only trigger on merge into main
+    paths:
+      - 'seeds/**'  # Only trigger if changes are made in the seeds directory
+
+jobs:
+  trigger-dbt-cloud-job:
+    if: github.event.pull_request.merged == true  # Only run if the PR was merged
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for git diff
+
+      - name: Get list of modified seed files
+        id: get-seed-changes
+        run: |
+          # Get the list of modified files in the PR
+          MODIFIED_FILES=$(git diff --name-only HEAD^ HEAD)
+
+          # Filter for files in the seeds/ directory and save to a file
+          echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' > modified_seeds.txt
+
+          # Read the modified seed files into a variable and set as output
+          MODIFIED_SEEDS=$(cat modified_seeds.txt)
+          echo "Modified seed files: $MODIFIED_SEEDS"
+          echo "::set-output name=modified_seeds::$MODIFIED_SEEDS"
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Trigger dbt Cloud job with modified seeds
+        run: |
+          python trigger_dbt_cloud_job.py
+        env:
+          DBT_ACCOUNT_ID: ${{ secrets.DBT_ACCOUNT_ID }}
+          DBT_JOB_ID: ${{ secrets.DBT_JOB_ID }}
+          DBT_API_TOKEN: ${{ secrets.DBT_API_TOKEN }}
+          MODIFIED_SEEDS: ${{ steps.get-seed-changes.outputs.modified_seeds }}
