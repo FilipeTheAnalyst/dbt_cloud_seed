@@ -9,7 +9,6 @@ on:
 
 jobs:
   trigger-dbt-cloud-job:
-    if: github.event.pull_request.merged == true  # Only run if the PR was merged
     runs-on: ubuntu-latest
 
     steps:
