@@ -31,6 +31,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   atp_tour:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+
+seeds:
+  atp_tour:
+    +schema: seeds
+    seed_atp_rankings_current:
+      +post-hook:
+        - "ALTER TABLE {{ this }} ADD COLUMN IF NOT EXISTS load_ts TIMESTAMP"
+        - "UPDATE {{ this }} SET load_ts = '{{ run_started_at }}' WHERE load_ts IS NULL"
