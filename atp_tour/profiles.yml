@@ -1,0 +1,65 @@
+atp_tour:
+
+  target: dev
+
+  outputs:
+
+    dev:
+
+      type: snowflake
+
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+
+      user: "{{ env_var('DBT_USER') }}"
+
+      password: "{{ env_var('DBT_PASSWORD') }}"
+
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+
+      schema: DBT_FBALSEIRO
+
+      threads: 16
+
+    prod:
+
+      type: snowflake
+
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+
+      user: "{{ env_var('DBT_USER') }}"
+
+      password: "{{ env_var('DBT_PASSWORD') }}"
+
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+
+      schema: ANALYTICS
+
+      threads: 16
+
+    qa:
+
+      type: snowflake
+
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+
+      user: "{{ env_var('DBT_USER') }}"
+
+      password: "{{ env_var('DBT_PASSWORD') }}"
+
+      role: "{{ env_var('SNOWFLAKE_ROLE') }}"
+
+      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
+
+      schema: ANALYTICS_QA
+
+      threads: 16
