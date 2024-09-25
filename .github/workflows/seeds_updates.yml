@@ -1,8 +1,7 @@
 name: Trigger dbt Cloud job on seed file changes after merging to main
 
 on:
-  pull_request:
-    types: [closed]  # Trigger on PR closure
+  push:
     branches:
       - main  # Only trigger on merge into main
     paths:
