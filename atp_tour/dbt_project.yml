@@ -35,7 +35,6 @@ models:
 seeds:
   atp_tour:
     +schema: seeds
-    seed_atp_rankings_current:
-      +post-hook:
-        - "ALTER TABLE {{ this }} ADD COLUMN IF NOT EXISTS load_ts TIMESTAMP"
-        - "UPDATE {{ this }} SET load_ts = '{{ run_started_at }}' WHERE load_ts IS NULL"
+    +post-hook:
+      - "ALTER TABLE {{ this }} ADD COLUMN IF NOT EXISTS load_ts TIMESTAMP"
+      - "UPDATE {{ this }} SET load_ts = '{{ run_started_at }}' WHERE load_ts IS NULL"
