@@ -30,7 +30,7 @@ jobs:
           echo "$MODIFIED_FILES"
 
           # Filter for .csv files in the seeds/ directory and save to a file
-          echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' > modified_seeds.txt || true
+          echo "$MODIFIED_FILES" | grep '^atp_tour/seeds/.*\.csv$' > modified_seeds.txt || true
 
           # Read the modified seed files into a variable and set as output
           if [ -s modified_seeds.txt ]; then
