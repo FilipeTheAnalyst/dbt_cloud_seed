@@ -14,18 +14,31 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch full history for git diff
+          ref: ${{ github.event.after }} # Checkout the latest commit on the main branch after merge
 
       - name: Get list of modified seed files
         id: get-seed-changes
         run: |
-          # Get the list of modified files in the PR
-          MODIFIED_FILES=$(git diff --name-only HEAD^ HEAD)
+          # Get the SHA of the previous commit on the main branch before the current one
+          PREV_COMMIT=$(git rev-parse HEAD^)
 
-          # Filter for files in the seeds/ directory and save to a file
-          echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' > modified_seeds.txt
+          # Check the difference between the current commit and the previous one
+          MODIFIED_FILES=$(git diff --name-only $PREV_COMMIT HEAD)
+
+          # Debugging output
+          echo "List of modified files:"
+          echo "$MODIFIED_FILES"
+
+          # Filter for .csv files in the seeds/ directory and save to a file
+          echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' > modified_seeds.txt || true
 
           # Read the modified seed files into a variable and set as output
-          MODIFIED_SEEDS=$(cat modified_seeds.txt)
+          if [ -s modified_seeds.txt ]; then
+            MODIFIED_SEEDS=$(cat modified_seeds.txt)
+          else
+            MODIFIED_SEEDS=""
+          fi
+
           echo "Modified seed files: $MODIFIED_SEEDS"
           echo "::set-output name=modified_seeds::$MODIFIED_SEEDS"
 
