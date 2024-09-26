@@ -29,17 +29,13 @@ jobs:
           echo "List of modified files:"
           echo "$MODIFIED_FILES"
 
-          # Filter for .csv files in the seeds/ directory (and subdirectories) and save to a file
-          echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' > modified_seeds.txt || true
-
-          # Read the modified seed files into a variable and set as output
-          if [ -s modified_seeds.txt ]; then
-            MODIFIED_SEEDS=$(cat modified_seeds.txt)
-          else
-            MODIFIED_SEEDS=""
-          fi
-
+          # Filter for .csv files in the seeds directory (and subdirectories) and save to a file
+          MODIFIED_SEEDS=$(echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' | tr '\n' ',' | sed 's/,$//')
+          
+          # Debugging output
           echo "Modified seed files: $MODIFIED_SEEDS"
+
+          # Set output for the next steps
           echo "::set-output name=modified_seeds::$MODIFIED_SEEDS"
 
       - name: Set up Python
