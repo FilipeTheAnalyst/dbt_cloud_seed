@@ -15,16 +15,24 @@ def get_modified_seeds():
     
     # Split the environment variable string into a list of filenames.
     modified_seeds = modified_seeds.split()
+
+    print(f"Modified seed files: {modified_seeds}")
     
-    # Filter only .csv files in the seeds directory.
-    seed_files = [f.replace('atp_tour/seeds/', '').replace('.csv', '') for f in modified_seeds if f.startswith('atp_tour/seeds/') and f.endswith('.csv')]
-    
+    # Filter only .csv files in the seeds directory and subdirectories
+    seed_files = [
+        os.path.splitext(os.path.basename(f))[0]  # Get the file name without extension
+        for f in modified_seeds 
+        if f.startswith('seeds/') and f.endswith('.csv')
+    ]
+
+    print(f"Modified seed files names only: {seed_files}")
+
     return seed_files
 
 def trigger_dbt_cloud_job(account_id, job_id, token, modified_seeds):
     # Construct the overridden dbt seed command
     if modified_seeds:
-        dbt_command = f"dbt seed --full-refresh --select {' '.join(modified_seeds)}"
+        dbt_command = f"dbt seed --select {' '.join(modified_seeds)} --full-refresh"
     else:
         print("No modified seed files found. Exiting...")
         sys.exit(0)
