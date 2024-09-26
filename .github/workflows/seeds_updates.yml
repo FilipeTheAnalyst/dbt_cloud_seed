@@ -29,8 +29,8 @@ jobs:
           echo "List of modified files:"
           echo "$MODIFIED_FILES"
 
-          # Filter for .csv files in the seeds/ directory and save to a file
-          echo "$MODIFIED_FILES" | grep '^atp_tour/seeds/.*\.csv$' > modified_seeds.txt || true
+          # Filter for .csv files in the seeds/ directory (and subdirectories) and save to a file
+          echo "$MODIFIED_FILES" | grep '^seeds/.*\.csv$' > modified_seeds.txt || true
 
           # Read the modified seed files into a variable and set as output
           if [ -s modified_seeds.txt ]; then
@@ -54,7 +54,7 @@ jobs:
 
       - name: Trigger dbt Cloud job with modified seeds
         run: |
-          python trigger_dbt_cloud_job.py
+          python trigger_dbt_cloud_job_seeds_modified_full_refresh.py
         env:
           DBT_ACCOUNT_ID: ${{ secrets.DBT_ACCOUNT_ID }}
           DBT_JOB_ID: ${{ secrets.DBT_JOB_ID }}
