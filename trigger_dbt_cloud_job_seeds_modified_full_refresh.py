@@ -14,7 +14,7 @@ def get_modified_seeds():
         return []
     
     # Split the environment variable string into a list of filenames.
-    modified_seeds = modified_seeds.split()
+    modified_seeds = modified_seeds.split(",")
 
     print(f"Modified seed files: {modified_seeds}")
     
@@ -25,7 +25,7 @@ def get_modified_seeds():
         if f.startswith('seeds/') and f.endswith('.csv')
     ]
 
-    print(f"Modified seed files names only: {seed_files}")
+    print(f"Modified seed file names only: {seed_files}")
 
     return seed_files
 
