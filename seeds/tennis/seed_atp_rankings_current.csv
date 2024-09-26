@@ -1,4 +1,4 @@
-ranking_date,rank,player,points,flag,is_active,is_active_v2,is_active_v3,is_active_v4,is_active_v5,is_active_v6,load_timestamp
+ranking_date,rank,player,points,flag,is_active,is_active_v2,is_active_v3,is_active_v4,is_active_v5,is_active_v6,load_timestamp,load_ts_2
 20240101,1,104925,11245,FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
 20240101,2,207989,8855,FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
 20240101,3,106421,7600,FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE
