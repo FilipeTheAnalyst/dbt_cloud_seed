@@ -17,7 +17,7 @@ def get_modified_seeds():
     modified_seeds = modified_seeds.split()
     
     # Filter only .csv files in the seeds directory.
-    seed_files = [f.replace('seeds/', '').replace('.csv', '') for f in modified_seeds if f.startswith('seeds/') and f.endswith('.csv')]
+    seed_files = [f.replace('atp_tour/seeds/', '').replace('.csv', '') for f in modified_seeds if f.startswith('atp_tour/seeds/') and f.endswith('.csv')]
     
     return seed_files
 
