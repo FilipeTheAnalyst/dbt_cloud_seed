@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main  # Only trigger on merge into main
-    paths:
-      - 'seeds/**'  # Only trigger if changes are made in the seeds directory
 
 jobs:
   trigger-dbt-cloud-job:
