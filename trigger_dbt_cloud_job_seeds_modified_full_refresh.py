@@ -12,12 +12,12 @@ def get_modified_seeds():
     if not modified_seeds:
         print("No modified seed files found in the environment variable.")
         return []
-    
+
     # Split the environment variable string into a list of filenames.
-    modified_seeds = modified_seeds.split()
+    modified_seeds = modified_seeds.split(",")
 
     print(f"Modified seed files: {modified_seeds}")
-    
+
     # Filter only .csv files in the seeds directory and subdirectories
     seed_files = [
         os.path.splitext(os.path.basename(f))[0]  # Get the file name without extension
@@ -25,7 +25,7 @@ def get_modified_seeds():
         if f.startswith('seeds/') and f.endswith('.csv')
     ]
 
-    print(f"Modified seed files names only: {seed_files}")
+    print(f"Modified seed file names only: {seed_files}")
 
     return seed_files
 
