@@ -6,7 +6,7 @@ on:
       - main  # Only trigger on merge into main
 
 jobs:
-  trigger-dbt-cloud-job:
+  trigger-dbt-cloud-job-seeds-modified:
     runs-on: ubuntu-latest
 
     steps:
@@ -52,7 +52,8 @@ jobs:
         run: |
           python trigger_dbt_cloud_job_seeds_modified_full_refresh.py
         env:
-          DBT_ACCOUNT_ID: ${{ secrets.DBT_ACCOUNT_ID }}
-          DBT_JOB_ID: ${{ secrets.DBT_JOB_ID }}
-          DBT_API_TOKEN: ${{ secrets.DBT_API_TOKEN }}
+          DBT_ACCOUNT_ID: ${{ vars.DBT_CLOUD_ACCOUNT_ID }}
+          # To trigger the prod_ad_hoc job to perform a full refresh on the modified seeds
+          DBT_JOB_ID: ${{ secrets.DBT_PROD_ADHOC_JOB_ID }}
+          DBT_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
           MODIFIED_SEEDS: ${{ steps.get-seed-changes.outputs.modified_seeds }}
